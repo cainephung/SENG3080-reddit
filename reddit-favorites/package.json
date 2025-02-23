@@ -1,6 +1,6 @@
 {
   "name": "reddit-favorites",
-  "homepage": "https://cainephung/SENG3080-reddit",
+  "homepage": "https://conestoga-college-seng3080.github.io/front-end-assignment-cainephung",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^19.0.0",

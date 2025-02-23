@@ -1,3 +1,7 @@
+/**
+ * Post.tsx - Displays a list of Reddit posts.
+ * Allows users to favorite posts and saves post IDs in localStorage.
+ */
 import { useState } from "react";
 import { saveToFavorites, getStoredFavorites } from "../utils/storage";
 
@@ -15,6 +19,10 @@ interface PostListProps {
 const PostList: React.FC<PostListProps> = ({ posts }) => {
   const [favorites, setFavorites] = useState<string[]>(getStoredFavorites());
 
+  /**
+   * Handles favoriting a post.
+   * Saves the post ID to localStorage and updates the state.
+   */
   const handleFavorite = (postId: string) => {
     saveToFavorites(postId);
     setFavorites(getStoredFavorites()); // Update state to reflect changes

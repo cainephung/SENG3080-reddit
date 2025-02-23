@@ -1,3 +1,8 @@
+/**
+ * Favorites.tsx - Displays a list of favorited Reddit posts.
+ * Fetches post details from the Reddit API using stored post IDs.
+ * Allows users to remove posts from favorites.
+ */
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getStoredFavorites, removeFromFavorites } from "../utils/storage";
@@ -13,6 +18,10 @@ const FavoriteList = () => {
   const [favorites, setFavorites] = useState<string[]>(getStoredFavorites());
   const [posts, setPosts] = useState<Post[]>([]);
 
+  /**
+   * Fetches full post details for each favorited post from the Reddit API.
+   * Runs whenever the `favorites` list changes.
+   */
   useEffect(() => {
     const fetchFavoritePosts = async () => {
       const postDetails = await Promise.all(
@@ -26,7 +35,7 @@ const FavoriteList = () => {
               id: postData.id,
               title: postData.title,
               score: postData.score,
-              comments: `https://www.reddit.com${postData.comments}`,
+              comments: `https://www.reddit.com/r/${postData.subreddit}/comments/${postData.id}/`, // Ensure subreddit is included
             };
           } catch (error) {
             console.error("Error fetching post:", error);

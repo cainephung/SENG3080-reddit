@@ -1,3 +1,8 @@
+/**
+ * Home.tsx - Main page for searching Reddit posts.
+ * Allows users to enter a subreddit name, fetch the top 10 "hot" posts,
+ * and add posts to favorites.
+ */
 import { useState } from "react";
 import axios from "axios";
 import PostList from "../components/post";
@@ -14,18 +19,23 @@ const Home = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
+  /**
+   * Fetches the top 10 "hot" posts from the entered subreddit using the Reddit API.
+   * Updates the state with the retrieved posts.
+   */
   const fetchPosts = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
         `https://www.reddit.com/r/${subreddit}/hot.json?limit=10`
       );
+
       const postList: Post[] = response.data.data.children.map(
         (item: { data: Post }) => ({
           id: item.data.id,
           title: item.data.title,
           score: item.data.score,
-          comments: item.data.comments,
+          comments: `https://www.reddit.com/r/${subreddit}/comments/${item.data.id}/`,
         })
       );
       setPosts(postList);

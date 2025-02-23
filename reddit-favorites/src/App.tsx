@@ -1,3 +1,6 @@
+/**
+ * App.tsx - Provides navigation links to the Home and Favorites pages.
+ */
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/home";
 import Favorites from "./pages/favorites";

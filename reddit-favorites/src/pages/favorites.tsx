@@ -1,3 +1,6 @@
+/**
+ * Favorites.tsx - Uses the FavoriteList component to show posts stored in localStorage.
+ */
 import FavoriteList from "../components/favorites";
 
 const Favorites = () => {

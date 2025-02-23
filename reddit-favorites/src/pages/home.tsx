@@ -18,17 +18,24 @@ const Home = () => {
   const [subreddit, setSubreddit] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   /**
    * Fetches the top 10 "hot" posts from the entered subreddit using the Reddit API.
-   * Updates the state with the retrieved posts.
+   * Updates the state with the retrieved posts or shows an error if the subreddit is invalid.
    */
   const fetchPosts = async () => {
     setLoading(true);
+    setError(""); // Clear previous errors
+    setPosts([]); // Clear previous posts while loading
+
     try {
       const response = await axios.get(
         `https://www.reddit.com/r/${subreddit}/hot.json?limit=10`
       );
+      if (!response.data.data.children.length) {
+        throw new Error("No posts found in this subreddit.");
+      }
 
       const postList: Post[] = response.data.data.children.map(
         (item: { data: Post }) => ({
@@ -40,6 +47,7 @@ const Home = () => {
       );
       setPosts(postList);
     } catch (error) {
+      setError("Failed to fetch subreddit. It may not exist or is private.");
       console.error("Error fetching subreddit:", error);
     }
     setLoading(false);
@@ -57,8 +65,10 @@ const Home = () => {
       <button onClick={fetchPosts} disabled={loading}>
         {loading ? "Loading..." : "Search"}
       </button>
-
-      <PostList posts={posts} />
+      {/* Show error message if search fails */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {/* Display posts only if there are results */}
+      {posts.length > 0 ? <PostList posts={posts} /> : null}
     </div>
   );
 };

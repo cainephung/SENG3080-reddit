@@ -37,14 +37,14 @@ const Home = () => {
         throw new Error("No posts found in this subreddit.");
       }
 
-      const postList: Post[] = response.data.data.children.map(
-        (item: { data: Post }) => ({
+      const postList: Post[] = response.data.data.children
+        .slice(0, 10)
+        .map((item: { data: Post }) => ({
           id: item.data.id,
           title: item.data.title,
           score: item.data.score,
           comments: `https://www.reddit.com/r/${subreddit}/comments/${item.data.id}/`,
-        })
-      );
+        }));
       setPosts(postList);
     } catch (error) {
       setError("Failed to fetch subreddit. It may not exist or is private.");
